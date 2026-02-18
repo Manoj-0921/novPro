@@ -62,7 +62,7 @@ const generateUnquieId=async()=>{
     {uniqueId && <p>Your Unique ID: {uniqueId}</p>}
     <button onClick={generateUnquieId}>generateUniqueId</button>
     <button onClick={handleLogout}>Logout</button>
-    <Detail/>
+  
    </>
   )
 }
