@@ -1,70 +1,21 @@
-import { useState } from 'react';
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-
+import { Link } from 'react-router-dom';
+import './Login.css';
 
 function Home() {
-  const [uniqueId, setUniqueId] = useState(null);
-    const username=localStorage.getItem("username");
-    const navigate=useNavigate();
- const handleLogout = async () => {
-  try {
-    const response = await axios.post(
-      "http://localhost:4000/api/Logout",
-      {},
-      {
-        withCredentials: true
-      }
-    );
-    
-    console.log(response.data); // shows real output
-
-    navigate("/");
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-const generateUnquieId=async()=>{
- try {
-    const response = await axios.get("http://localhost:4000/api/generateUniqueId", {
-      withCredentials: true
-    });
-    if (response.status === 200) {
-      setUniqueId(response.data.uniqueId);
-      console.log("Generated Unique ID:", response.data.uniqueId);
-    }
-  } catch (error) {
-    if(error.response.status===401){
-  const reposne =await axios.post("http://localhost:4000/api/refreshToken", {},
-    {
-      withCredentials:true
-    }
-  )
-  if(reposne.status===200){
-    generateUnquieId();
-  }
-  
-    }
-
-    console.error("Error generating Unique ID:", error);
-  }
-}
-  
-  
-  return (
-   <>
-
-    <h1>Welcome to Home Page, {username}</h1>
-
-    {uniqueId && <p>Your Unique ID: {uniqueId}</p>}
-    <button onClick={generateUnquieId}>generateUniqueId</button>
-    <button onClick={handleLogout}>Logout</button>
-  
-   </>
-  )
+return (
+  <div className="home-container">
+    <div className="home-content">
+      <h1>Welcome</h1>
+      <p>This is the home page of our application. Please choose an option below to get started.</p>
+      <div className="home-buttons">
+        <Link to="/login"><button>Login</button></Link>
+        <Link to="/signup-customer"><button>Sign Up as Customer</button></Link>
+        <Link to="/signup-retailer"><button>Sign Up as Retailer</button></Link>
+      </div>
+    </div>
+  </div>
+)
 }
 
 export default Home

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Login from './Login';
 const { useState } = React;
 import axios from 'axios';
-function Sigin() {
+function RegisterCustomer() {
   const navigate=useNavigate();
   const [formData, setFormData] = useState({
     username: '',
@@ -30,7 +30,8 @@ const handleLogin = async (e) => {
    
   const reposnse= await axios.post("http://localhost:4000/api/register",{
     username:formData.username,
-    password:formData.password
+    password:formData.password,
+    role:"customer"
   },{
     headers:{
       'Content-Type':'application/json'
@@ -66,9 +67,10 @@ catch(error){
             value={formData.password}
             placeholder="enter ur password "
           />
+          
           <button type="submit"> Submit </button>
           <p>
-            if have already account <Link to="/">Login</Link>{" "}
+            If you have an account <Link to="/login">Login</Link>{" "}
           </p>
         </div>
       </form>
@@ -77,4 +79,4 @@ catch(error){
   );
 }
 
-export default Sigin;
+export default RegisterCustomer;

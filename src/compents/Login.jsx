@@ -21,6 +21,26 @@ const handleChange=(e)=>{
     [e.target.name]: e.target.value
   });
 }
+const fetchUserRole=async()=>{
+  try{
+    const response =await axios.get('http://localhost:4000/api/userdetials',{
+      withCredentials:true
+    })
+    if(response.status===200){
+      console.log("User Role:", response.data.role);
+      return { role: response.data.role, username: response.data.username };
+    }
+    else{
+      return null;
+    }
+  }
+  catch(error){
+    console.error("Error fetching user role:", error);
+    return null;      
+    }
+  }
+  
+
 const handleLogin = async(e) => {
   console.log("Form Data:", formData);
  try{
@@ -44,12 +64,25 @@ const response = await axios.post(
 );
 
   if(response.status===200){
-    const username=response.data.username;
-
-    console.log("Login successful:", username);
-    alert("Login successful");
   
-    navigate("/Home");
+    // const username=response.data.username;
+    // const role=response.data.role;
+
+    // console.log("Login successful:", username);
+    // localStorage.setItem("username", username);
+    // localStorage.setItem("role", role);
+    // alert("Login successful");
+    const userdetials= await fetchUserRole();
+    console.log("User Details:", userdetials);
+
+  
+    if(userdetials.role === "customer") {
+      navigate("/customer");
+    } else if(userdetials.role === "retailer") {
+      navigate("/retailer");
+    } else {
+      navigate("/");
+    }
   }   
 
 
